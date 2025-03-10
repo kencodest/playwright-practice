@@ -47,7 +47,7 @@ test("Page Playwright test", async ({page}) =>
 });
 
 //Dropdowns
-test.only("UI Controls", async ({page}) => {
+test("UI Controls", async ({page}) => {
     
     await page.goto("https://rahulshettyacademy.com/loginpagePractise");
     const usernameLocator = page.locator("#username");
@@ -55,7 +55,9 @@ test.only("UI Controls", async ({page}) => {
 
     //click radio button
     await page.locator(".radiotextsty").nth(1).click();
+    //click the button in the popup
     await page.locator("#okayBtn").click();
+    //assert radio button is checked
     await expect(page.locator(".radiotextsty").nth(1)).toBeChecked();
 
     //select dropdown
@@ -63,9 +65,18 @@ test.only("UI Controls", async ({page}) => {
 
     //check the checbox
     await page.locator("#terms").check();
+    //assert checkbox is checked
     await expect(page.locator("#terms")).toBeChecked();
     //uncheck the checkbox
     await page.locator("#terms").uncheck();
     await expect(page.locator("#terms")).not.toBeChecked();
-    await page.pause();
+
+    //check blinking text
+    await expect(page.locator("[href*='documents-request']")).toHaveAttribute("class", "blinkingText");
+    // await page.pause();
+});
+
+test.only("Child windows handling", async ({page}) => {
+    const documentLink = page.locator("[href*='documents-request']");
+    await documentLink.click();
 });
