@@ -76,7 +76,13 @@ test("UI Controls", async ({page}) => {
     // await page.pause();
 });
 
-test.only("Child windows handling", async ({page}) => {
+test.only("Child windows handling", async ({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    //listening on a new tab/page
+    const newPage = await context.waitForEvent("page");
     const documentLink = page.locator("[href*='documents-request']");
+
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     await documentLink.click();
 });
