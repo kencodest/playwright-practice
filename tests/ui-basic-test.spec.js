@@ -79,10 +79,22 @@ test("UI Controls", async ({page}) => {
 test.only("Child windows handling", async ({browser}) => {
     const context = await browser.newContext();
     const page = await context.newPage();
-    //listening on a new tab/page
-    const newPage = await context.waitForEvent("page");
-    const documentLink = page.locator("[href*='documents-request']");
 
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
-    await documentLink.click();
+    const documentLink = await page.locator("[href*='documents-request']");
+
+    const [newPage] = await Promise.all([
+        //listening on a new tab/page
+        context.waitForEvent("page"),
+        //click on link to open in a new page
+        documentLink.click()
+    ]);
+
+    // await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const text = await newPage.locator(".red").textContent();
+    console.log(text);
+    const splitText = text.split(" ");
+    const email = splitText[4];
+    console.log(email);
+
 });
