@@ -91,10 +91,14 @@ test.only("Child windows handling", async ({browser}) => {
     ]);
 
     // await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    console.log(await newPage.title());
     const text = await newPage.locator(".red").textContent();
     console.log(text);
     const splitText = text.split(" ");
     const email = splitText[4];
     console.log(email);
+
+    const usernameLocator = page.locator("#username");
+    await usernameLocator.fill(email)
 
 });
