@@ -18,7 +18,7 @@ test.beforeAll("Pass the base URL before all tests", async () => {
 
 
 // Test using the default request fixture to get booking IDs.
-test("API Testing Get Practice - request fixture - Get booking IDs", async ({ request }) => {
+test("API Testing GET Practice - request fixture - Get booking IDs", async ({ request }) => {
   // Send a GET request to the full URL.
   const response = await request.get("https://restful-booker.herokuapp.com/booking", {
     headers: {
@@ -32,7 +32,7 @@ test("API Testing Get Practice - request fixture - Get booking IDs", async ({ re
 
 
 // Test creating a local API context with base URL and headers, then fetching booking IDs.
-test("Passing base URL in the local API Context - Get booking IDs", async () => {
+test("API Testing GET Practice - Passing base URL in the local API Context - Get booking IDs", async () => {
   // Create a local request context for this test with a base URL.
   const requestContext = await request.newContext({
     baseURL: "https://restful-booker.herokuapp.com",
@@ -49,7 +49,7 @@ test("Passing base URL in the local API Context - Get booking IDs", async () => 
 
 
 // Test using the global API request context created in beforeAll to fetch booking IDs.
-test("Passing base URL in the global API Context - Get booking IDs", async () => {
+test("API Testing GET Practice - Passing base URL in the global API Context - Get booking IDs", async () => {
   // Use the pre-configured global request context.
   const response = await requestContext2.get("/booking");
   // Parse the JSON response.
@@ -59,7 +59,7 @@ test("Passing base URL in the global API Context - Get booking IDs", async () =>
 
 
 // Test fetching a single booking using path parameters, with assertions to validate the response.
-test("Passing path parameters - global API context - Get a booking", async () => {
+test("API Testing GET Practice - Passing path parameters - global API context - Get a booking", async () => {
   // Send a GET request to retrieve booking details for booking ID 7.
   const response = await requestContext2.get("/booking/7");
   // Parse the booking details from the response.
@@ -68,6 +68,8 @@ test("Passing path parameters - global API context - Get a booking", async () =>
 
   // Assert that the response status is 200 (OK).
   expect(response.status()).toBe(200);
+  // Assert that the response status text OK
+  expect(response.statusText()).toBe("OK");
   // Assert that the parsed JSON is an object.
   expect(response.json()).toBeInstanceOf(Object);
   // Compare the response with an expected object structure.
@@ -85,7 +87,7 @@ test("Passing path parameters - global API context - Get a booking", async () =>
 
 
 // Test fetching bookings using query parameters to filter results.
-test("Passing query parameters - global API context - Get a booking", async () => {
+test("API Testing GET Practice - Passing query parameters - global API context - Get a booking", async () => {
   // Send a GET request with query parameters for firstname and lastname.
   const response = await requestContext2.get("/booking", {
     params: {
@@ -100,7 +102,7 @@ test("Passing query parameters - global API context - Get a booking", async () =
 
 
 // Test integrating API data with UI validation using the request fixture and page context.
-test.only("API with UI validation", async ({ request, page }) => {
+test.only("API Testing GET Practice - API with UI validation", async ({ request, page }) => {
   // Send a GET request to fetch API entries.
   const response = await request.get("https://api.demoblaze.com/entries");
   // Parse the JSON response.
