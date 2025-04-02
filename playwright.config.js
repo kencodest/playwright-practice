@@ -101,6 +101,8 @@ export default defineConfig({
   use: {
     // Specify which browser to use for testing; here, we"re using Chromium.
     browserName: "chromium",
-    headless: false
+    headless: false,
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure'
   },
 });
