@@ -1,104 +1,115 @@
-const {test, expect} = require("@playwright/test");
-// import {test} from "@playwright/test"
+const { test, expect } = require("@playwright/test");
 
-
-// Browser context
-test("Browser Context Playwright test", async ({browser}) => 
-{
+// ----------------------------
+// Test 1: Browser Context - Simulating Multiple Users or Clean Sessions
+// ----------------------------
+test("Browser Context Playwright test", async ({ browser }) => {
+    // Create a new isolated browser context
     const context = await browser.newContext();
     const page = await context.newPage();
-    
+
     const usernameLocator = page.locator("#username");
     const signInLocator = page.locator("#signInBtn");
 
+    // Navigate to login page
     await page.goto("https://rahulshettyacademy.com/loginpagePractise");
-    // console.log(await page.title());
-    //fill in username
+
+    // Fill in wrong username and password
     await usernameLocator.fill("kennedy");
-    //fill in password
     await page.locator("[type='password']").fill("learning");
+
+    // Click sign in and assert error appears
     await signInLocator.click();
-    // console.log(await page.locator("[style*='block']").textContent());
     await expect(page.locator("[style*='block']")).toContainText("Incorrect");
-    //remove the wrong username and enter the correct one
+
+    // Clear the username and enter the correct one
     await usernameLocator.fill("");
     await usernameLocator.fill("rahulshettyacademy");
     await signInLocator.click();
 
-    //User has signed in
-    //get the title of the first element
+    // User is now signed in
+    // Log the first product title
     console.log(await page.locator(".card-body a").nth(0).textContent());
-    // get all titles of all elements
-    // await page.locator(".card-body a").first().waitFor();
+
+    // Log all product titles
     console.log(await page.locator(".card-body a").allTextContents());
-
 });
 
-
-// Page context
-test("Page Playwright test", async ({page}) =>
-{
+// ----------------------------
+// Test 2: Page Context - Basic Navigation and Title Assertion
+// ----------------------------
+test("Page Playwright test", async ({ page }) => {
     await page.goto("https://google.com");
-    // get the title of the page
-    console.log(await page.title());
-    //assert if the title is correct
-    await expect(page).toHaveTitle("Google");
 
+    // Log the title of the page
+    console.log(await page.title());
+
+    // Assert the title is "Google"
+    await expect(page).toHaveTitle("Google");
 });
 
-//Dropdowns
-test("UI Controls", async ({page}) => {
-    
+// ----------------------------
+// Test 3: UI Controls - Radio buttons, checkboxes, dropdowns, and dynamic attributes
+// ----------------------------
+test("UI Controls", async ({ page }) => {
     await page.goto("https://rahulshettyacademy.com/loginpagePractise");
+
     const usernameLocator = page.locator("#username");
     const signInLocator = page.locator("#signInBtn");
 
-    //click radio button
+    // Select the second radio button ("User")
     await page.locator(".radiotextsty").nth(1).click();
-    //click the button in the popup
+
+    // Handle confirmation popup
     await page.locator("#okayBtn").click();
-    //assert radio button is checked
+
+    // Assert that the selected radio button is checked
     await expect(page.locator(".radiotextsty").nth(1)).toBeChecked();
 
-    //select dropdown
+    // Select "Consultant" from the dropdown
     await page.locator("select.form-control").selectOption("consult");
 
-    //check the checbox
+    // Check the "Terms and Conditions" checkbox and assert it's checked
     await page.locator("#terms").check();
-    //assert checkbox is checked
     await expect(page.locator("#terms")).toBeChecked();
-    //uncheck the checkbox
+
+    // Uncheck it and assert it's unchecked
     await page.locator("#terms").uncheck();
     await expect(page.locator("#terms")).not.toBeChecked();
 
-    //check blinking text
+    // Assert that the blinking text has the correct class
     await expect(page.locator("[href*='documents-request']")).toHaveAttribute("class", "blinkingText");
-    // await page.pause();
 });
 
-test("Child windows handling", async ({browser}) => {
+// ----------------------------
+// Test 4: Child Windows - Handle new tab and extract info from it
+// ----------------------------
+test("Child windows handling", async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const documentLink = await page.locator("[href*='documents-request']");
 
+    // Wait for a new page (tab) to open upon clicking the link
     const [newPage] = await Promise.all([
-        //listening on a new tab/page
         context.waitForEvent("page"),
-        //click on link to open in a new page
-        documentLink.click()
+        documentLink.click() // This triggers the new page
     ]);
 
-    // await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    // Log the title of the newly opened tab
     console.log(await newPage.title());
+
+    // Extract text content containing the email address
     const text = await newPage.locator(".red").textContent();
     console.log(text);
+
+    // Extract the email from the string
     const splitText = text.split(" ");
     const email = splitText[4];
     console.log(email);
 
+    // Fill the extracted email back into the original login form
     const usernameLocator = page.locator("#username");
-    await usernameLocator.fill(email)
-
+    await usernameLocator.fill(email);
 });
