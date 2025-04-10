@@ -1,54 +1,33 @@
-import { test, expect, request, APIRequestContext } from '@playwright/test';
+import { test, expect } from '@playwright/test'
 
-// Global variables to store the token and orderId
-let token;
-let orderId;
-
-// Payload for login API request
+let updatedContext;
 const loginPayload = {
     'userEmail': 'anshika@gmail.com',
     'userPassword': 'Iamking@000'
-};
+}
 
-// Payload for creating an order (not used in this version but defined for potential use)
-const orderPayload = {
-    orders: [{
-        country: "India",
-        productOrderedId: "67a8dde5c0d3e6622a297cc8"
-    }]
-};
+test.beforeAll(async function ({ browser }) {
+    const context = await browser.newContext();
+    const page = await context.newPage();
 
-// ---------------------------------------------
-// Runs once before all tests
-// Authenticates the user via API and stores the token
-// ---------------------------------------------
-test.beforeAll(async function () {
-    const apiContext = await request.newContext({
-        baseURL: 'https://rahulshettyacademy.com'
-    });
+    await page.goto('https://rahulshettyacademy.com/client');
+    await page.locator("#userEmail").fill('anshika@gmail.com');
+    await page.locator("#userPassword").fill('Iamking@000');
+    await page.locator("#login").click();
+    await page.waitForLoadState("networkidle");
 
-    const loginResponseObject = await apiContext.post('/api/ecom/auth/login', {
-        data: loginPayload
-    });
+    // store the storage state
+    await context.storageState({ path: 'state.json' });
 
-    // Ensure the login was successful
-    expect(loginResponseObject.ok()).toBeTruthy();
+    // create a new browser context with the storage state
+    updatedContext = await browser.newContext({
+        storageState: 'state.json'
+    })
 
-    // Extract token from the response JSON
-    const loginResponseJson = await loginResponseObject.json();
-    token = loginResponseJson.token;
 });
 
-
-// ---------------------------------------------
-// Test: Native Playwright + API + UI
-// Simulates shopping experience with token injection
-// ---------------------------------------------
-test('Client App Native Playwright', async function ({ page }) {
-    // Inject the token into localStorage before page loads
-    page.addInitScript(value => {
-        window.localStorage.setItem('token', value);
-    }, token);
+test('Session Storage Test', async function () {
+    const page = await updatedContext.newPage();
 
     const productName = 'ZARA COAT 3';
 
@@ -127,4 +106,4 @@ test('Client App Native Playwright', async function ({ page }) {
     // Verify that the order details page matches the expected order ID
     const orderDetails = await page.locator('.col-text').textContent();
     expect(orderId.includes(orderDetails)).toBeTruthy();
-});
+})
