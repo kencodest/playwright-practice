@@ -92,7 +92,7 @@ export default defineConfig({
   // Specify the directory where all test files are located.
   testDir: "./tests",
   // Set the maximum time each test can run.
-  timeout: 30 *1000,
+  timeout: 30 * 1000,
   // Set the maximum time for expect() assertions to complete
   expect: {
     timeout: 5000,
