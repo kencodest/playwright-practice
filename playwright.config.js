@@ -98,11 +98,58 @@ export default defineConfig({
     timeout: 5000,
   },
   reporter: "html",
-  use: {
-    // Specify which browser to use for testing; here, we"re using Chromium.
-    browserName: "chromium",
-    headless: false,
-    screenshot: 'only-on-failure',
-    trace: 'on'
-  },
+  retries: 1,
+  projects: [
+    {
+      name: 'safari',
+      use: {
+        browserName: "webkit",
+        headless: true,
+        screenshot: 'only-on-failure',
+        trace: 'on',
+        ignoreHTTPSErrors: true,
+        permissions: ['geolocation'],
+        video: 'retain-on-failure'
+      }
+    },
+    // {
+    //   name: 'chrome',
+    //   use: {
+    //     browserName: "chromium",
+    //     headless: false,
+    //     screenshot: 'only-on-failure',
+    //     trace: 'on',
+    //     ignoreHTTPSErrors: true,
+    //     video: 'retain-on-failure'
+    //   }
+    // },
+    // {
+    //   name: 'chrome',
+    //   use: {
+    //     browserName: "chromium",
+    //     headless: false,
+    //     screenshot: 'only-on-failure',
+    //     trace: 'on',
+    //     ignoreHTTPSErrors: true,
+    //     permissions: ['geolocation'],
+    //     viewport: {
+    //       width: 720,
+    //       height: 720
+    //     },
+    //     video: 'retain-on-failure'
+    //   }
+    // },
+    // {
+    //   name: 'mobile-chrome',
+    //   use: {
+    //     browserName: "chromium",
+    //     headless: false,
+    //     screenshot: 'only-on-failure',
+    //     ignoreHTTPSErrors: true,
+    //     trace: 'on',
+    //     ...devices['Galaxy S9+ landscape']
+    //   }
+    // },
+    
+  ]
 });

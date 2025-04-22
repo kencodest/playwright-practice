@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kencodes/playwright-practice.git"
@@ -17,7 +16,7 @@
   },
   "homepage": "https://github.com/kencodes/playwright-practice#readme",
   "devDependencies": {
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.51.1",
     "@types/node": "^22.13.5"
   }
 }

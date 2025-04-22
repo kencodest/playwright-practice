@@ -1,5 +1,5 @@
 import { APIRequestContext, test, request, expect } from "@playwright/test";
-import * as testData from "../test-data/api-data.json" // Import test data from a JSON file
+import * as testData from "../utils/test-data/api-data.json" // Import test data from a JSON file
 
 // Declare a global variable to hold the shared API request context.
 let requestContext: APIRequestContext;
