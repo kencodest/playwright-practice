@@ -1,3 +1,31 @@
+<<<<<<< HEAD
 node_modules/
 test-results/
 playwright-report/
+=======
+# Node.js
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/trace.zip
+/screenshots/
+/videos/
+/downloads/
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
+.env.test
+.env.production
+>>>>>>> 373820673eadab0e13f6389a94ff4d5cb1e7283d

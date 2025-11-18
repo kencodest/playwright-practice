@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "PlayWrightAutomation",
   "version": "1.0.0",
   "description": "",
@@ -8,10 +9,21 @@
     "webTests": "npx playwright test --grep @Web",
     "APITests": "npx playwright test --grep @API",
     "SafariNewConfig": "npx playwright test --config playwright.config1.js --project=safari"
+=======
+  "name": "playwright-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kencodes/playwright-practice.git"
+>>>>>>> 373820673eadab0e13f6389a94ff4d5cb1e7283d
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+<<<<<<< HEAD
   "devDependencies": {
     "@cucumber/cucumber": "*",
     "@playwright/test": "^1.40",
@@ -20,5 +32,14 @@
   },
   "dependencies": {
     "exceljs": "^4.4.0"
+=======
+  "bugs": {
+    "url": "https://github.com/kencodes/playwright-practice/issues"
+  },
+  "homepage": "https://github.com/kencodes/playwright-practice#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.13.5"
+>>>>>>> 373820673eadab0e13f6389a94ff4d5cb1e7283d
   }
 }
